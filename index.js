@@ -1,24 +1,3 @@
-const LoufiCoin = require('./src/blockchain/blockchain');
-const Wallet = require('./src/wallet/wallet');
+const startP2PServer = require('./src/network/network').startServer;
 
-const wallet = new Wallet();
-
-LoufiCoin.mineNewBlock(wallet.publicKey);
-
-console.log('\x1b[32m[WALLET]\x1b[0m\tBALANCE: ', wallet.getBalance());
-
-LoufiCoin.mineNewBlock(wallet.publicKey);
-
-console.log('\x1b[32m[WALLET]\x1b[0m\tBALANCE: ', wallet.getBalance());
-
-LoufiCoin.mineNewBlock(wallet.publicKey);
-
-console.log('\x1b[32m[WALLET]\x1b[0m\tBALANCE: ', wallet.getBalance());
-
-LoufiCoin.mineNewBlock(wallet.publicKey);
-
-console.log('\x1b[32m[WALLET]\x1b[0m\tBALANCE: ', wallet.getBalance());
-
-LoufiCoin.mineNewBlock(wallet.publicKey);
-
-console.log('\x1b[32m[WALLET]\x1b[0m\tBALANCE: ', wallet.getBalance());
+startP2PServer().then();
