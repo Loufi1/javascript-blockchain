@@ -1,7 +1,9 @@
 const Block = require('./block');
 const Transaction = require('./transaction');
 
-const MINING_DIFFICULTY_RATIO = 4;
+const MINING_DIFFICULTY_RATIO = 5;
+const BLOCKCHAIN_CREATED = '\x1b[34m[BLOCKCHAIN]\x1b[0m\tINFO: A new blockchain has been created...\x1b[0m';
+const MINING_BLOCK = '\x1b[34m[BLOCKCHAIN]\x1b[0m\tINFO: Mining block...\x1b[0m';
 
 class Blockchain {
     constructor() {
@@ -9,7 +11,7 @@ class Blockchain {
         this.transactionQueue = [];
         this.reward = 1;
 
-        console.log('A new blockchain has been created...');
+        console.log(BLOCKCHAIN_CREATED);
     }
 
     getLastBlock() {
@@ -19,7 +21,7 @@ class Blockchain {
     mineNewBlock(minerAddr) {
         let block = new Block(this.getLastBlock().signature, this.transactionQueue);
 
-        console.log('Mining block...');
+        console.log(MINING_BLOCK);
 
         block.signature = block.mine(MINING_DIFFICULTY_RATIO);
         this.chain.push(block);

@@ -1,5 +1,7 @@
 const sha256 = require('crypto-js/sha256');
 
+const BLOCKCHAIN_INFO = '\x1b[34m[BLOCKCHAIN]\x1b[0m\tINFO:';
+
 class Block {
     constructor(previousBlock, data) {
         this.nonce = 0;
@@ -18,7 +20,7 @@ class Block {
             this.nonce++;
             this.signature = this.createSignature();
         }
-        console.log('Block mined: ' + this.signature);
+        console.log(BLOCKCHAIN_INFO, 'Block mined -> ' + this.signature);
         return (this.signature);
     }
 

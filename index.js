@@ -3,8 +3,7 @@ const Wallet = require('./src/wallet/wallet');
 
 const wallet = new Wallet();
 
-wallet.sendCoinTo('loufi', 1);
+LoufiCoin.mineNewBlock(wallet.publicKey);
+LoufiCoin.mineNewBlock(wallet.publicKey);
 
-LoufiCoin.mineNewBlock('loufi');
-
-console.log(wallet.getBalance());
+console.log('\x1b[32m[WALLET]\x1b[0m\tBALANCE: ', wallet.getBalance());
