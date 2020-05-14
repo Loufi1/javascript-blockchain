@@ -21,6 +21,14 @@ class Block {
         console.log('Block mined: ' + this.signature);
         return (this.signature);
     }
+
+    checkTransaction() {
+        this.data.map((transaction) => {
+            if (!transaction.isValid())
+                return false
+        });
+        return true;
+    }
 }
 
 module.exports = Block;

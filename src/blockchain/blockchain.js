@@ -27,8 +27,12 @@ class Blockchain {
         this.transactionQueue = [new Transaction(null, minerAddr, this.reward)];
     }
 
-    pushTransaction(from, to, amount) {
-        this.transactionQueue.push(new Transaction(from, to, amount));
+    pushTransaction(transaction) {
+        if (!transaction.from || !transaction.to)
+            throw new Error('Transaction must have from and to address');
+        if (!transaction.isValid())
+            throw new Error('Transaction must be valid');
+        this.transactionQueue.push(transaction);
     }
 
     length() {
@@ -37,9 +41,8 @@ class Blockchain {
 
     checkValidity() {
         for (let i = 1; i < this.chain.length; i++) {
-            console.log(this.chain[i].signature);
-            console.log(this.chain[i].createSignature());
-            console.log('\n');
+            if (!this.chain[i].checkTransaction())
+                return false;
             if (this.chain[i].signature !== this.chain[i].createSignature())
                 return false;
             if (this.chain[i].previousBlock !== this.chain[i - 1].signature)
@@ -63,4 +66,6 @@ class Blockchain {
     }
 }
 
-module.exports = Blockchain;
+let LoufiCoin = new Blockchain();
+
+module.exports = LoufiCoin;

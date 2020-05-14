@@ -1,10 +1,18 @@
 const EC = require('elliptic').ec;
 const ec = new EC('secp256k1');
 
-const key = ec.genKeyPair();
+class Keygen {
+    constructor() {
+        this.key = ec.genKeyPair();
+    }
 
-const publicKey = key.getPublic('hex');
-const privateKey = key.getPrivate('hex');
+    getPrivateKey() {
+        return this.key.getPrivate('hex');
+    }
 
-console.log('Private key\t->\t', privateKey);
-console.log('Public key\t->\t', publicKey);
+    getPublicKey() {
+        return this.key.getPublic('hex');
+    }
+}
+
+module.exports = Keygen;
