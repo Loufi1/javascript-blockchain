@@ -13,8 +13,8 @@ class Wallet {
             this.privateKey = keygen.getPrivateKey();
             this.publicKey = keygen.getPublicKey();
         } else {
-            this.privateKey = ec.keyFromPrivate(privateKey);
-            this.publicKey = this.privateKey.getPublic('hex');
+            this.privateKey = privateKey;
+            this.publicKey = ec.keyFromPrivate(privateKey).getPublic('hex');
         }
     }
 

@@ -2,10 +2,13 @@
   "name": "javascript-blockchain",
   "version": "1.0.0",
   "dependencies": {
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
     "crypto-js": "^4.0.0",
     "dat-swarm-defaults": "^1.0.2",
     "discovery-swarm": "^6.1.0",
     "elliptic": "^6.5.2",
+    "express": "^4.17.1",
     "get-port": "^5.1.1",
     "portfinder": "^1.0.26"
   }
