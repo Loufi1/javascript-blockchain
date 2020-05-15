@@ -1,10 +1,10 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {Button, Container, Image} from "react-bootstrap";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import InputGroup from "react-bootstrap/InputGroup";
 import FormControl from "react-bootstrap/FormControl";
-import {Link, withRouter} from "react-router-dom";
+import {withRouter} from "react-router-dom";
 import queriesManager from "../../services/queries";
 
 class LoginPage extends React.Component {

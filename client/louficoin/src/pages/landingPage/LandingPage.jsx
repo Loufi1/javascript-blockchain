@@ -2,7 +2,7 @@ import React from 'react';
 import {Button, Container, Image} from "react-bootstrap";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-import {Link, withRouter} from "react-router-dom";
+import {withRouter} from "react-router-dom";
 import queriesManager from "../../services/queries";
 import Card from "react-bootstrap/Card";
 import Accordion from "react-bootstrap/Accordion";
