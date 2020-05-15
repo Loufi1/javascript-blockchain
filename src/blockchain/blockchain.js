@@ -77,6 +77,18 @@ class Blockchain {
         return balance;
     }
 
+    getAddrTransactions(addr) {
+        const t = [];
+
+        this.chain.map((block) => {
+            block.data.map((transaction) => {
+                if (transaction.from === addr || transaction.to === addr)
+                    t.push(transaction);
+            })
+        });
+        return t;
+    }
+
     verifyTransaction(t) {
         console.log(t);
 

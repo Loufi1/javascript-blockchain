@@ -1,8 +1,7 @@
 const API_SERVER_IS_RUNNING = require('./src/utils/error-msg').API_SERVER_IS_RUNNING;
 const API_SERVER_ERROR = require('./src/utils/error-msg').API_SERVER_ERROR;
-const NOT_ALLOWED_BY_CORS = require('./src/utils/error-msg').NOT_ALLOWED_BY_CORS;
 
-const startP2PServer = require('./src/network/network').startServer;
+const LoufiCoin = require('./src/blockchain/blockchain');
 const bodyParser = require('body-parser');
 const express = require('express');
 const cors = require('cors');
@@ -25,23 +24,45 @@ server.get('/', function (req, res) {
 let wallet = null;
 
 server.post('/createWallet', function (req, res) {
+    wallet = null;
     if (req.body.isNewWallet) {
         wallet = new Wallet();
         console.log('[BLOCKCHAIN]\tINFO: new wallet created');
+        res.send({
+            privateKey: wallet.privateKey,
+            publicKey: wallet.publicKey,
+        })
     } else {
         wallet = new Wallet(req.body.privateKey);
         console.log('[BLOCKCHAIN]\tINFO: existent wallet opened');
+        res.send({
+            privateKey: wallet.privateKey,
+            publicKey: wallet.publicKey,
+        })
     }
-    res.send('Wallet created');
 });
 
 server.get('/getWalletSold', function (req, res) {
-    res.send(wallet.getBalance().toString());
+    if (wallet)
+        res.send(wallet.getBalance().toString());
 });
 
 server.post('/sendCoinsTo', function (req, res) {
     wallet.sendCoinTo(req.body.toPublicKey, req.body.amount);
     res.send('Transaction made');
+});
+
+server.get('/getBlockchain', function (req, res) {
+    res.send(LoufiCoin.chain);
+});
+
+server.get('/walletTransactions', function (req, res) {
+    res.send(LoufiCoin.getAddrTransactions(req.query.publicKey));
+});
+
+server.get('/mineNewBlock', function (req, res) {
+    LoufiCoin.mineNewBlock(req.query.publicKey);
+    res.send('Block mined.');
 });
 
 server.listen(port, (err) => {
@@ -50,5 +71,3 @@ server.listen(port, (err) => {
     }
     console.log(API_SERVER_IS_RUNNING, port);
 });
-
-startP2PServer().then();

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {Button, Container, Image} from "react-bootstrap";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
@@ -7,6 +7,12 @@ import FormControl from "react-bootstrap/FormControl";
 import {Link} from "react-router-dom";
 
 function LoginPage() {
+    const [key, setKey] = useState('');
+
+    const onChange = (e) => {
+        setKey(e.target.value);
+    };
+
     return (
         <div className="App">
             <Container fluid={true}>
@@ -22,6 +28,8 @@ function LoginPage() {
                                         <InputGroup.Text id="private-key">Private key</InputGroup.Text>
                                     </InputGroup.Prepend>
                                     <FormControl
+                                        value={key}
+                                        onChange={(e) => onChange(e)}
                                         placeholder="Private key"
                                         aria-label="private-key"
                                         aria-describedby="private-key"
@@ -33,7 +41,7 @@ function LoginPage() {
                                     pathname: '/wallet',
                                     state: {
                                         newWallet: false,
-                                        privateKey: '1272bdzj27djDEceZDE34dRec4I3neeBef',
+                                        privateKey: key,
                                     }
                                 }}>
                                     <Button block style={{backgroundColor: '#414345', border: '#27d2edfa 1px solid'}}>Login</Button>
