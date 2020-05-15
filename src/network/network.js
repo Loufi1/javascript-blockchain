@@ -3,6 +3,8 @@ const Swarm = require('discovery-swarm');
 const defaults = require('dat-swarm-defaults');
 const getPort = require('get-port');
 
+const LoufiCoin = require('../blockchain/blockchain');
+
 const peers = {};
 let connSeq = 0;
 
@@ -36,7 +38,6 @@ const startServer = async () => {
             const seq = connSeq;
 
             const peerId = info.id.toString('hex');
-            console.log(`Connected #${seq} to peer: ${peerId}`);
 
             if (info.initiator) {
                 try {
@@ -47,14 +48,10 @@ const startServer = async () => {
             }
 
             conn.on('data', data => {
-                console.log(
-                    'Received Message from peer ' + peerId,
-                    '----> ' + JSON.parse(data).data
-                )
+                LoufiCoin.pushTransaction(JSON.parse(data).data.data);
             });
 
             conn.on('close', () => {
-                console.log(`Connection ${seq} closed, peer id: ${peerId}`);
                 if (peers[peerId].seq === seq) {
                     delete peers[peerId];
                 }

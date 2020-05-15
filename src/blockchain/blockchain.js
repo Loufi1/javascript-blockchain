@@ -1,6 +1,10 @@
 const Block = require('./block');
 const Transaction = require('./transaction');
 
+const sha256 = require('crypto-js/sha256');
+const EC = require('elliptic').ec;
+const ec = new EC('secp256k1');
+
 const MINING_DIFFICULTY_RATIO = 5;
 const BLOCKCHAIN_CREATED = '\x1b[34m[BLOCKCHAIN]\x1b[0m\tINFO: A new blockchain has been created...\x1b[0m';
 const MINING_BLOCK = '\x1b[34m[BLOCKCHAIN]\x1b[0m\tINFO: Mining block...\x1b[0m';
@@ -26,14 +30,20 @@ class Blockchain {
         block.signature = block.mine(MINING_DIFFICULTY_RATIO);
         this.chain.push(block);
 
+        if (!this.checkValidity()) {
+            this.chain.pop();
+            return false;
+        }
+
         this.transactionQueue = [new Transaction(null, minerAddr, this.reward)];
     }
 
     pushTransaction(transaction) {
         if (!transaction.from || !transaction.to)
             throw new Error('Transaction must have from and to address');
-        if (!transaction.isValid())
+        if (!this.verifyTransaction(transaction))
             throw new Error('Transaction must be valid');
+        console.log('transaction effectué');
         this.transactionQueue.push(transaction);
     }
 
@@ -65,6 +75,23 @@ class Blockchain {
             })
         });
         return balance;
+    }
+
+    verifyTransaction(t) {
+        console.log(t);
+
+        if (t.from === null)
+            return true;
+
+        if (!t.signature || t.signature.length === 0)
+            throw new Error('Transaction must be signed');
+
+        const publicKey = ec.keyFromPublic(t.from, 'hex');
+        return publicKey.verify(this.createTransactionHash(t), t.signature);
+    }
+
+    createTransactionHash(t) {
+        return sha256(t.from + t.to + t.amount + t.timeStamp).toString();
     }
 }
 

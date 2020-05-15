@@ -22,7 +22,7 @@ server.get('/', function (req, res) {
     res.send('Welcome to javascript based blockchain API !')
 });
 
-let wallet;
+let wallet = null;
 
 server.post('/createWallet', function (req, res) {
     if (req.body.isNewWallet) {
@@ -37,6 +37,11 @@ server.post('/createWallet', function (req, res) {
 
 server.get('/getWalletSold', function (req, res) {
     res.send(wallet.getBalance().toString());
+});
+
+server.post('/sendCoinsTo', function (req, res) {
+    wallet.sendCoinTo(req.body.toPublicKey, req.body.amount);
+    res.send('Transaction made');
 });
 
 server.listen(port, (err) => {

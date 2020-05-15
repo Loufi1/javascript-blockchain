@@ -7,7 +7,7 @@ class Transaction {
         this.from = from;
         this.to = to;
         this.amount = amount;
-        this.timeStamp = new Date();
+        this.timeStamp = new Date().toString();
     }
 
     createHash() {
