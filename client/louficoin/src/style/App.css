@@ -18,6 +18,15 @@
     font-size: 300%;
 }
 
+.small-title {
+    background: -webkit-linear-gradient(to right, #27d2edfa, #BD2ABB, #8742EB, #1BCAF1);
+    background: linear-gradient(to right, #27d2edfa, #BD2ABB, #8742EB, #1BCAF1);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-weight: bold;
+    font-size: 100%;
+}
+
 .custom-jumbotron {
     background-color: transparent !important;
 }
