@@ -1,5 +1,5 @@
 import React from 'react';
-import {Button, Container, Image} from "react-bootstrap";
+import {Button, Container, Image, Spinner} from "react-bootstrap";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import queriesManager from "../../services/queries";
@@ -7,6 +7,7 @@ import Modal from "react-bootstrap/Modal";
 import InputGroup from "react-bootstrap/InputGroup";
 import FormControl from "react-bootstrap/FormControl";
 import MaterialIcon from 'material-icons-react';
+import Alert from "react-bootstrap/Alert";
 
 class WalletPage extends React.Component {
     state = {
@@ -14,6 +15,9 @@ class WalletPage extends React.Component {
         publicKey: '',
         newWallet: false,
         sold: 0,
+
+        isMined: false,
+        isLoading: false,
     };
 
     componentDidMount() {
@@ -37,9 +41,10 @@ class WalletPage extends React.Component {
     }
 
     mineBlock() {
+        this.setState({isMined: false, isLoading: true});
         console.log(this.state.publicKey);
         queriesManager.mineNewBlock(this.state.publicKey, (res) => {
-            console.log(res);
+            this.setState({isMined: true, isLoading: false});
         }).then();
     }
 
@@ -135,6 +140,26 @@ class WalletPage extends React.Component {
                                             style={{backgroundColor: '#414345', border: '#27d2edfa 1px solid'}}
                                             onClick={() => this.mineBlock()}
                                     >Mine a block</Button>
+                                </Col>
+                            </Row>
+                            <Row className="mx-auto mt-5">
+                                <Col xs={6} className="mx-auto">
+                                    {
+                                        this.state.isLoading
+                                            ?
+                                            <Row className="justify-content-center">
+                                                <Spinner animation="grow"/>
+                                                <Spinner animation="grow"/>
+                                                <Spinner animation="grow"/>
+                                                <Spinner animation="grow"/>
+                                                <Spinner animation="grow"/>
+                                                <Spinner animation="grow"/>
+                                            </Row>
+                                            :
+                                            <Alert show={this.state.isMined} variant='info' onClose={() => this.setState({isMined: false})} dismissible>
+                                                Block mined !
+                                            </Alert>
+                                    }
                                 </Col>
                             </Row>
                         </Col>
