@@ -7,14 +7,14 @@ const ec = new EC('secp256k1');
 const ERROR_INSUFFICENT_FUNDS = '\x1b[32m[WALLET]\x1b[0m\t\x1b[31mERROR: You have insufficient founds to perfom this transaction.\x1b[0m';
 
 class Wallet {
-    constructor(privateKey) {
+    constructor(privateKey, publicKey) {
         if (!privateKey) {
             const keygen = new Keygen();
             this.privateKey = keygen.getPrivateKey();
             this.publicKey = keygen.getPublicKey();
         } else {
             this.privateKey = privateKey;
-            this.publicKey = ec.keyFromPrivate(privateKey).getPublic();
+            this.publicKey = publicKey;
         }
     }
 

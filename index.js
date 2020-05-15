@@ -33,7 +33,7 @@ server.post('/createWallet', function (req, res) {
             publicKey: wallet.publicKey,
         })
     } else {
-        wallet = new Wallet(req.body.privateKey);
+        wallet = new Wallet(req.body.privateKey, req.body.publicKey);
         console.log('[BLOCKCHAIN]\tINFO: existent wallet opened');
         res.send({
             privateKey: wallet.privateKey,

@@ -2,7 +2,7 @@ import React from 'react';
 import {Button, Container, Image} from "react-bootstrap";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-import {Link} from "react-router-dom";
+import {Link, withRouter} from "react-router-dom";
 import queriesManager from "../../services/queries";
 import Card from "react-bootstrap/Card";
 import Accordion from "react-bootstrap/Accordion";
@@ -20,6 +20,20 @@ class LandingPage extends React.Component {
         });
     }
 
+    goToWallet() {
+        queriesManager.connectToWallet(true, null, null,(keys) => {
+            console.log(keys);
+            this.props.history.push({
+                pathname: '/wallet',
+                state: {
+                    newWallet: true,
+                    privateKey: keys.data.privateKey,
+                    publicKey: keys.data.publicKey,
+                }
+            });
+        }).then();
+    }
+
     render() {
         return (
             <div className="App">
@@ -34,14 +48,7 @@ class LandingPage extends React.Component {
                         <Col className="my-auto">
                             <Row className="my-auto">
                                 <Col className="my-auto">
-                                    <Link style={{ textDecoration: 'none' }} to={{
-                                        pathname: '/wallet',
-                                        state: {
-                                            newWallet: true,
-                                        }
-                                    }}>
-                                        <Button block style={{backgroundColor: '#414345', border: '#27d2edfa 1px solid'}}>New wallet</Button>
-                                    </Link>
+                                    <Button block style={{backgroundColor: '#414345', border: '#27d2edfa 1px solid'}} onClick={() => this.goToWallet()}>New wallet</Button>
                                 </Col>
                                 <Col className="my-auto">
                                     <Button href='/wallet/login' block style={{backgroundColor: '#414345', border: '#BD2ABB 1px solid'}}>Sign in</Button>
@@ -117,4 +124,4 @@ class LandingPage extends React.Component {
     }
 }
 
-export default LandingPage;
+export default withRouter(LandingPage);

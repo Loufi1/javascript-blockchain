@@ -13,11 +13,12 @@ const queriesManager = {
         })
     },
 
-    async connectToWallet(isNewWallet, privateKey, callback) {
+    async connectToWallet(isNewWallet, privateKey, publicKey, callback) {
         return axios.post(`http://localhost:4200/createWallet`,
             {
                 isNewWallet: isNewWallet,
                 privateKey: privateKey,
+                publicKey: publicKey,
             }).then(res => {
             return callback(res);
         })

@@ -12,29 +12,17 @@ class WalletPage extends React.Component {
     state = {
         privateKey: '',
         publicKey: '',
-        newWallet: true,
+        newWallet: false,
         sold: 0,
     };
 
     componentDidMount() {
-        if (this.props.location.state.newWallet) {
-            queriesManager.connectToWallet(true, null, (keys) => {
-                console.log(keys);
-                this.setState({
-                    privateKey: keys.data.privateKey,
-                    publicKey: keys.data.publicKey,
-                })
-            }).then();
-        } else {
-            queriesManager.connectToWallet(false, this.props.location.privateKey, (keys) => {
-                console.log(keys);
-                this.setState({
-                    privateKey: keys.data.privateKey,
-                    publicKey: keys.data.publicKey,
-                    newWallet: false,
-                })
-            }).then();
-        }
+        if (this.props.location.state.newWallet) this.setState({newWallet: true});
+
+        this.setState({
+            privateKey: this.props.location.state.privateKey,
+            publicKey: this.props.location.state.publicKey,
+        });
 
         queriesManager.getWalletSold((sold) => {
             console.log(sold);
