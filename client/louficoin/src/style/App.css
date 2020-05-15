@@ -1,0 +1,36 @@
+.App {
+    height: 100vh;
+    overflow: auto;
+
+    background: #232526;  /* fallback for old browsers */
+    background: -webkit-linear-gradient(to right, #414345, #232526);  /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, #414345, #232526); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
+    font-family: 'Quicksand', sans-serif;
+}
+
+.title {
+    background: -webkit-linear-gradient(to right, #27d2edfa, #BD2ABB, #8742EB, #1BCAF1);
+    background: linear-gradient(to right, #27d2edfa, #BD2ABB, #8742EB, #1BCAF1);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-weight: bold;
+    font-size: 300%;
+}
+
+.custom-jumbotron {
+    background-color: transparent !important;
+}
+
+.text-align-center {
+    text-align: center;
+}
+
+.image-animation {
+    -webkit-animation:spin 20s linear infinite;
+    -moz-animation:spin 20s linear infinite;
+    animation:spin 20s linear infinite;
+}
+@-moz-keyframes spin { 100% { -moz-transform: rotate(360deg); } }
+@-webkit-keyframes spin { 100% { -webkit-transform: rotate(360deg); } }
+@keyframes spin { 100% { -webkit-transform: rotate(360deg); transform:rotate(360deg); } }
