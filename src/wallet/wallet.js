@@ -19,16 +19,19 @@ class Wallet {
     }
 
     sendCoinTo(to, amount) {
+        let error = '';
         const sold = LoufiCoin.getAddrBalance(this.publicKey);
         if (sold < amount) {
             console.log(ERROR_INSUFFICENT_FUNDS);
-            return false;
+            return 'You have insufficient funds to perform this transaction.';
         }
         const t = new Transaction(this.publicKey, to, amount);
 
-        t.signTransaction(ec.keyFromPrivate(this.privateKey));
-        LoufiCoin.pushTransaction(t);
-        return true;
+        error = t.signTransaction(ec.keyFromPrivate(this.privateKey));
+        if (error) return error;
+        error = LoufiCoin.pushTransaction(t);
+        if (error) return error;
+        return 'Transaction done';
     }
 
     getBalance() {

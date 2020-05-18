@@ -18,6 +18,11 @@ class WalletPage extends React.Component {
 
         isMined: false,
         isLoading: false,
+
+        to: '',
+        amount: '',
+        isTransactionDone: false,
+        errorMsg: 'error',
     };
 
     componentDidMount() {
@@ -45,6 +50,16 @@ class WalletPage extends React.Component {
         console.log(this.state.publicKey);
         queriesManager.mineNewBlock(this.state.publicKey, (res) => {
             this.setState({isMined: true, isLoading: false});
+        }).then();
+    }
+
+    sendCoinsTo() {
+        queriesManager.sendCoinsTo(this.state.amount, this.state.to, (res) => {
+            console.log(res);
+            this.setState({
+                errorMsg: res.data,
+                isTransactionDone: true,
+            })
         }).then();
     }
 
@@ -112,6 +127,8 @@ class WalletPage extends React.Component {
                                         placeholder="Public key"
                                         aria-label="Public key"
                                         aria-describedby="Public-key"
+                                        value={this.state.to}
+                                        onChange={(e) => this.setState({to: e.target.value})}
                                     />
                                 </InputGroup>
                                 <InputGroup className="mb-3">
@@ -122,12 +139,21 @@ class WalletPage extends React.Component {
                                         placeholder="Coins"
                                         aria-label="Coins"
                                         aria-describedby="Coins"
+                                        value={this.state.amount}
+                                        onChange={(e) => this.setState({amount: e.target.value})}
                                     />
                                 </InputGroup>
                             </Row>
                             <Row>
                                 <Col xs={4} className="mx-auto">
-                                    <Button block style={{backgroundColor: '#414345', border: '#27d2edfa 1px solid'}}>Send</Button>
+                                    <Button block style={{backgroundColor: '#414345', border: '#27d2edfa 1px solid'}} onClick={() => this.sendCoinsTo()}>Send</Button>
+                                </Col>
+                            </Row>
+                            <Row>
+                                <Col className="mx-auto text-align-center mt-3">
+                                    <Alert show={this.state.isTransactionDone} variant='info' onClose={() => this.setState({isTransactionDone: false})} dismissible>
+                                        {this.state.errorMsg}
+                                    </Alert>
                                 </Col>
                             </Row>
                         </Col>

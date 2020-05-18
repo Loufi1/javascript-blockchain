@@ -40,11 +40,12 @@ class Blockchain {
 
     pushTransaction(transaction) {
         if (!transaction.from || !transaction.to)
-            throw new Error('Transaction must have from and to address');
+            return 'Transaction must have from and to address';
         if (!this.verifyTransaction(transaction))
-            throw new Error('Transaction must be valid');
+            return 'Transaction must be valid';
         console.log('transaction effectué');
         this.transactionQueue.push(transaction);
+        return 0;
     }
 
     length() {

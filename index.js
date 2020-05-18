@@ -48,8 +48,7 @@ server.get('/getWalletSold', function (req, res) {
 });
 
 server.post('/sendCoinsTo', function (req, res) {
-    wallet.sendCoinTo(req.body.toPublicKey, req.body.amount);
-    res.send('Transaction made');
+    res.send(wallet.sendCoinTo(req.body.toPublicKey, req.body.amount));
 });
 
 server.get('/getBlockchain', function (req, res) {
